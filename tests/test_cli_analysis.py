@@ -57,22 +57,25 @@ class FakeProvider:
                 "feature_candidates": ["Conta a Pagar"],
                 "questions": [],
             }
-        if "[STAGE:impact]" in prompt:
-            return {"erp_impacts": [], "regression": [], "attention_points": []}
-        return {
-            "tests": [
-                {
-                    "id": "CT01",
-                    "title": "Validar desconto",
-                    "priority": "P0",
-                    "provenance": "story",
-                    "related_risks": [],
-                }
-            ],
-            "negative_tests": [],
-            "regression": [],
-            "questions": [],
-        }
+        if "[STAGE:plan]" in prompt:
+            return {
+                "erp_impacts": [],
+                "attention_points": [],
+                "tests": [
+                    {
+                        "id": "CT01",
+                        "title": "Validar desconto",
+                        "priority": "P0",
+                        "provenance": "story",
+                        "category": "requirement",
+                        "related_risks": [],
+                    }
+                ],
+                "negative_tests": [],
+                "regression": [],
+                "questions": [],
+            }
+        raise AssertionError("unexpected stage")
 
 
 class FakeLoader:
@@ -107,7 +110,7 @@ def _patch(monkeypatch):
     monkeypatch.setattr(cli, "KnowledgeLoader", FakeLoader)
 
 
-def test_analysis_cli_saves_outputs_and_uses_cache(tmp_path: Path, monkeypatch):
+def test_analysis_cli_saves_outputs_shows_progress_and_uses_cache(tmp_path: Path, monkeypatch):
     _patch(monkeypatch)
     monkeypatch.chdir(tmp_path)
 
@@ -117,16 +120,20 @@ def test_analysis_cli_saves_outputs_and_uses_cache(tmp_path: Path, monkeypatch):
     assert (issue_dir / "story.json").exists()
     assert (issue_dir / "analysis.json").exists()
     assert (issue_dir / "analise-FN-14.md").exists()
-    assert FakeProvider.calls == 3
+    assert FakeProvider.calls == 2
     assert FakeJiraClient.calls == 1
+    assert "Story carregada do Jira" in first.stdout
+    assert "Interpretando requisito" in first.stdout
+    assert "Analisando impacto e planejando testes" in first.stdout
+    assert "Concluído em" in first.stdout
 
     second = runner.invoke(cli.app, ["FN-14"])
     assert second.exit_code == 0, second.stdout
-    assert FakeProvider.calls == 3
+    assert FakeProvider.calls == 2
     assert FakeJiraClient.calls == 1
     assert "cache" in second.stdout.lower()
 
     third = runner.invoke(cli.app, ["FN-14", "--reanalyze"])
     assert third.exit_code == 0, third.stdout
-    assert FakeProvider.calls == 6
+    assert FakeProvider.calls == 4
     assert FakeJiraClient.calls == 2

@@ -36,6 +36,17 @@ def render_markdown(issue: JiraIssue, analysis: AnalysisResult) -> str:
         else "_Nenhum impacto de ERP identificado._"
     )
 
+    requirements = [item for item in analysis.tests if item.category == "requirement"]
+    regression_scenarios = [item for item in analysis.tests if item.category == "regression"]
+    exploratory = [
+        *[item for item in analysis.tests if item.category == "exploratory"],
+        *analysis.negative_tests,
+    ]
+
+    regression_block = _scenarios(regression_scenarios)
+    if analysis.regression:
+        regression_block += "\n\n### Recomendações de regressão\n\n" + _items(analysis.regression)
+
     return f"""# {issue.key} — {issue.title}
 
 ## 1. Contexto da tarefa
@@ -62,17 +73,17 @@ def render_markdown(issue: JiraIssue, analysis: AnalysisResult) -> str:
 
 {impacts}
 
-## 7. Cenários de teste
+## 7. Cenários obrigatórios
 
-{_scenarios(analysis.tests)}
+{_scenarios(requirements)}
 
-## 8. Cenários negativos e de borda
+## 8. Regressão sugerida
 
-{_scenarios(analysis.negative_tests)}
+{regression_block}
 
-## 9. Regressivo sugerido
+## 9. Exploratórios / borda
 
-{_items(analysis.regression)}
+{_scenarios(exploratory)}
 
 ## 10. Dúvidas / lacunas do requisito
 

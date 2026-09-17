@@ -1,5 +1,26 @@
 relationships:
   - from_module: Financeiro
+    from_feature: Conta a Pagar
+    to_module: Fiscal
+    to_feature: Recebimento de Nota Fiscal
+    reason: A documentação da Consulta de Conta a Pagar informa que títulos podem ser gerados a partir do recebimento de nota fiscal.
+    provenance: documented
+    source_ids:
+      - financeiro-conta-a-pagar
+    risks:
+      - Em alterações na geração de títulos originados por Nota Fiscal, validar o fluxo ponta a ponta entre recebimento e Contas a Pagar.
+  - from_module: Financeiro
+    from_feature: Conta a Pagar
+    to_module: Financeiro
+    to_feature: Baixa de Título
+    reason: A documentação de Conta a Pagar contempla títulos baixados e período de baixa; a Consulta de Baixa de Título opera sobre contas a pagar e a receber.
+    provenance: documented
+    source_ids:
+      - financeiro-conta-a-pagar
+      - financeiro-baixa-titulo
+    risks:
+      - Em alterações de valor ou desconto do título, considerar regressão da baixa e dos totais baixados.
+  - from_module: Financeiro
     from_feature: Banco e Conta Corrente
     to_module: Financeiro
     to_feature: Baixa de Título

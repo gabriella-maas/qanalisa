@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 Provenance = Literal["story", "documented", "manual", "inferred", "unknown"]
 Priority = Literal["P0", "P1", "P2", "P3"]
+ScenarioCategory = Literal["requirement", "regression", "exploratory"]
 
 
 class JiraIssue(BaseModel):
@@ -38,6 +39,7 @@ class TestScenario(BaseModel):
     title: str
     priority: Priority = "P1"
     provenance: Provenance = "inferred"
+    category: ScenarioCategory = "requirement"
     related_risks: list[str] = Field(default_factory=list)
 
 
@@ -130,6 +132,15 @@ class ImpactAnalysis(BaseModel):
 
 
 class GeneratedTests(BaseModel):
+    tests: list[TestScenario] = Field(default_factory=list)
+    negative_tests: list[TestScenario] = Field(default_factory=list)
+    regression: list[TextItem] = Field(default_factory=list)
+    questions: list[TextItem] = Field(default_factory=list)
+
+
+class PlanAnalysis(BaseModel):
+    erp_impacts: list[ErpImpact] = Field(default_factory=list)
+    attention_points: list[TextItem] = Field(default_factory=list)
     tests: list[TestScenario] = Field(default_factory=list)
     negative_tests: list[TestScenario] = Field(default_factory=list)
     regression: list[TextItem] = Field(default_factory=list)
