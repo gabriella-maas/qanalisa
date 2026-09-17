@@ -1,0 +1,21 @@
+relationships:
+  - from_module: Financeiro
+    from_feature: Banco e Conta Corrente
+    to_module: Financeiro
+    to_feature: Baixa de Título
+    reason: O cadastro de Banco e Conta Corrente é utilizado posteriormente durante a Baixa de Títulos para indicar a conta envolvida nos valores e pagamentos.
+    provenance: documented
+    source_ids:
+      - financeiro-banco-conta-corrente
+    risks:
+      - Validar o uso da conta corrente em operações de baixa quando o cadastro bancário for alterado.
+  - from_module: Financeiro
+    from_feature: Banco e Conta Corrente
+    to_module: Financeiro
+    to_feature: Tesouraria
+    reason: A documentação informa que contas correntes são utilizadas também pelos PDVs para a Tesouraria.
+    provenance: documented
+    source_ids:
+      - financeiro-banco-conta-corrente
+    risks:
+      - Validar reflexos em movimentações da Tesouraria quando o cadastro bancário for alterado.

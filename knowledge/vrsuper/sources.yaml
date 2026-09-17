@@ -1,0 +1,10 @@
+sources:
+  - id: financeiro-conta-a-pagar
+    title: Conta a Pagar | VRSuper
+    url: https://docs.vrsoft.com.br/vrsuper/financeiro/conta-a-pagar
+  - id: financeiro-banco-conta-corrente
+    title: Cadastro Banco e Conta Corrente | VRSuper
+    url: https://docs.vrsoft.com.br/vrsuper/financeiro/cadastro/banco-e-conta-corrente/cadastro-banco-e-conta-corrente
+  - id: fiscal-recebimento-nota
+    title: Recebimento de Nota Fiscal | VRSuper
+    url: https://docs.vrsoft.com.br/vrsuper/fiscal/nota-fiscal/recebimento-de-nota-fiscal

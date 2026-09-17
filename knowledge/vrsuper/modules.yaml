@@ -1,0 +1,70 @@
+modules:
+  - name: Financeiro
+    aliases:
+      - financeiro
+    features:
+      - name: Conta a Pagar
+        aliases:
+          - conta a pagar
+          - contas a pagar
+        keywords:
+          - título
+          - titulo
+          - fornecedor
+          - pagamento
+        source_type: documented
+        source_ids:
+          - financeiro-conta-a-pagar
+      - name: Baixa de Título
+        aliases:
+          - baixa de título
+          - baixa de titulo
+          - baixa de títulos
+          - baixa de titulos
+        keywords:
+          - baixa
+          - pagamento
+          - recebimento
+        source_type: documented
+        source_ids:
+          - financeiro-banco-conta-corrente
+      - name: Banco e Conta Corrente
+        aliases:
+          - banco e conta corrente
+          - conta corrente
+          - banco
+        keywords:
+          - banco
+          - agência
+          - agencia
+          - conta
+          - tesouraria
+        source_type: documented
+        source_ids:
+          - financeiro-banco-conta-corrente
+      - name: Tesouraria
+        aliases:
+          - tesouraria
+        keywords:
+          - caixa
+          - gaveta
+          - pdv
+        source_type: documented
+        source_ids:
+          - financeiro-banco-conta-corrente
+  - name: Fiscal
+    aliases:
+      - fiscal
+    features:
+      - name: Recebimento de Nota Fiscal
+        aliases:
+          - recebimento de nota fiscal
+          - recebimento de nf
+          - entrada de nota fiscal
+        keywords:
+          - nota fiscal
+          - nf
+          - xml
+        source_type: documented
+        source_ids:
+          - fiscal-recebimento-nota

@@ -1,0 +1,7 @@
+risks:
+  - module: Financeiro
+    feature: Banco e Conta Corrente
+    text: Ao inativar banco ou conta corrente, lançamentos existentes permanecem vinculados, mas novos lançamentos não devem utilizar o cadastro inativo.
+    provenance: documented
+    source_ids:
+      - financeiro-banco-conta-corrente

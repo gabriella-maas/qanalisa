@@ -1,0 +1,15 @@
+.worktrees/
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.qa/
+dist/
+build/
+*.egg-info/
+.qanalisa-private/
+*.token
+*.secret
+credentials.*
