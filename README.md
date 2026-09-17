@@ -1,7 +1,5 @@
 # QAnalisa
 
-> **Entenda a story. Mapeie o risco. Teste melhor.**
-
 O **QAnalisa** é um assistente de Quality Assurance desenvolvido em **Python** para transformar tarefas do Jira em uma análise estruturada de testes.
 
 A partir da chave de uma story, o QAnalisa coleta o **título** e a **descrição** no Jira, interpreta o requisito com apoio do **Claude Code**, cruza a alteração com uma base de conhecimento de ERP e gera contexto, regras de negócio, riscos, cenários de teste e sugestões de regressão.
