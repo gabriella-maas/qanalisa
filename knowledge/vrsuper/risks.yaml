@@ -1,5 +1,18 @@
 risks:
   - module: Financeiro
+    feature: Conta a Pagar
+    text: Alterações na geração ou no valor de títulos podem exigir regressão da consulta, situações e totalizadores de Contas a Pagar.
+    provenance: inferred
+    source_ids:
+      - financeiro-conta-a-pagar
+  - module: Financeiro
+    feature: Conta a Pagar
+    text: Como títulos de Contas a Pagar participam de operações de baixa, mudanças em descontos ou valor líquido devem considerar a consistência da liquidação.
+    provenance: inferred
+    source_ids:
+      - financeiro-conta-a-pagar
+      - financeiro-baixa-titulo
+  - module: Financeiro
     feature: Banco e Conta Corrente
     text: Ao inativar banco ou conta corrente, lançamentos existentes permanecem vinculados, mas novos lançamentos não devem utilizar o cadastro inativo.
     provenance: documented

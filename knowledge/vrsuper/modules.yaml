@@ -27,7 +27,7 @@ modules:
           - recebimento
         source_type: documented
         source_ids:
-          - financeiro-banco-conta-corrente
+          - financeiro-baixa-titulo
       - name: Banco e Conta Corrente
         aliases:
           - banco e conta corrente

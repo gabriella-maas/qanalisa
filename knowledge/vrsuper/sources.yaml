@@ -1,7 +1,10 @@
 sources:
   - id: financeiro-conta-a-pagar
-    title: Conta a Pagar | VRSuper
-    url: https://docs.vrsoft.com.br/vrsuper/financeiro/conta-a-pagar
+    title: Consulta de Conta a Pagar | VRSuper
+    url: https://docs.vrsoft.com.br/vrsuper/financeiro/conta-a-pagar/consulta-de-conta-a-pagar
+  - id: financeiro-baixa-titulo
+    title: Consulta de Baixa de Título | VRSuper
+    url: https://docs.vrsoft.com.br/vrsuper/financeiro/baixa-de-titulo/consulta-de-baixa-de-titulo
   - id: financeiro-banco-conta-corrente
     title: Cadastro Banco e Conta Corrente | VRSuper
     url: https://docs.vrsoft.com.br/vrsuper/financeiro/cadastro/banco-e-conta-corrente/cadastro-banco-e-conta-corrente

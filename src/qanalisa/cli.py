@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from time import perf_counter
 
 import typer
 
@@ -16,6 +17,26 @@ from qanalisa.reports.markdown import render_markdown
 from qanalisa.storage.workspace import Workspace
 
 app = typer.Typer(help="QAnalisa — Entenda a story. Mapeie o risco. Teste melhor.")
+
+
+
+def _format_elapsed(seconds: float) -> str:
+    if seconds < 60:
+        return f"{seconds:.1f}s"
+    minutes = int(seconds // 60)
+    remainder = seconds - minutes * 60
+    return f"{minutes}m{remainder:04.1f}s"
+
+
+def _analysis_progress(stage: str, state: str, elapsed: float | None) -> None:
+    if stage == "story" and state == "start":
+        typer.echo("⠋ Interpretando requisito...")
+    elif stage == "story" and state == "done":
+        typer.echo(f"✓ Requisito analisado — {_format_elapsed(elapsed or 0.0)}")
+    elif stage == "plan" and state == "start":
+        typer.echo("⠋ Analisando impacto e planejando testes...")
+    elif stage == "plan" and state == "done":
+        typer.echo(f"✓ Plano de testes gerado — {_format_elapsed(elapsed or 0.0)}")
 
 
 def _knowledge_root() -> Path:
@@ -127,6 +148,7 @@ def _run_scenario(issue_key: str, scenario_id: str) -> None:
 def _run_analysis(issue_key: str, *, reanalyze: bool) -> None:
     issue_key = issue_key.upper()
     workspace = Workspace(Path.cwd() / ".qa")
+    total_started = perf_counter()
 
     if not reanalyze:
         cached_story = workspace.load_story(issue_key)
@@ -154,13 +176,24 @@ def _run_analysis(issue_key: str, *, reanalyze: bool) -> None:
         raise typer.Exit(code=1) from exc
 
     workspace.save_story(issue)
+    typer.echo("✓ Story carregada do Jira")
     knowledge = KnowledgeLoader(_knowledge_root()).load()
     match = KnowledgeMatcher(knowledge).match(f"{issue.title}\n{issue.description}")
+    if match.module:
+        matched = match.module + (f" > {match.feature}" if match.feature else "")
+        typer.echo(f"✓ Módulo identificado: {matched}")
+    else:
+        typer.echo("? Nenhum módulo específico identificado na base VRSuper")
     analysis = AnalysisPipeline(
         provider,
         provider_name=settings.ai_provider,
         model=settings.claude_model,
-    ).analyze(issue, match, knowledge_version=knowledge.version)
+    ).analyze(
+        issue,
+        match,
+        knowledge_version=knowledge.version,
+        progress=_analysis_progress,
+    )
     workspace.save_analysis(issue.key, analysis)
     markdown = render_markdown(issue, analysis)
     path = workspace.save_markdown(issue.key, markdown)
@@ -168,6 +201,7 @@ def _run_analysis(issue_key: str, *, reanalyze: bool) -> None:
     typer.echo(f"QAnalisa: {issue.key} — {issue.title}")
     typer.echo(f"Cenários: {len(analysis.tests)} | Negativos/borda: {len(analysis.negative_tests)}")
     typer.echo(f"Relatório: {path}")
+    typer.echo(f"✓ Concluído em {_format_elapsed(perf_counter() - total_started)}")
 
 
 @app.command()

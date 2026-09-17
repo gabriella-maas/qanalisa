@@ -9,7 +9,3 @@ __pycache__/
 dist/
 build/
 *.egg-info/
-.qanalisa-private/
-*.token
-*.secret
-credentials.*
